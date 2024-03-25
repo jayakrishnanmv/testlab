@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kuard
+  name: kuard
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kuard
+  template:
+    metadata:
+      labels:
+        app: kuard
+    spec:
+      containers:
+      - image: 3753d-tkghrbr01.na.pg.com/misc/kuard-amd64
+        name: kuard
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500"
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kuard
+  name: kuard
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: kuard
+  sessionAffinity: None
+  type: LoadBalancer
+root@3753d-hciu20-01:~# cat kuard.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kuard
+  name: kuard
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kuard
+  template:
+    metadata:
+      labels:
+        app: kuard
+    spec:
+      containers:
+      - image: 3753d-tkghrbr01.na.pg.com/misc/kuard-amd64
+        name: kuard
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500"
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kuard
+  name: kuard
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: kuard
+  sessionAffinity: None
+  type: LoadBalancer
